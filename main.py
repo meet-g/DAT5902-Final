@@ -55,7 +55,7 @@ def load_unemployment_white_uk(year):
                 percentEmployed = j[20]
                 percentEmployedNotUK = j[24]
                 borough = j[1]
-                data.append([borough,percentEmployed,percentEmployedNotUK])
+                data.append([str(year),percentEmployed,percentEmployedNotUK])
                 # append the borough and percentage employed
         except: 
             pass
@@ -94,6 +94,26 @@ def plotting_ethnic_uk():
     plt.bar(year, percentEmployed)
     plt.show()
 
+def plotting_white_uk():
+    data = []
+    for i in range(2005, 2023):
+        if i == 2010:
+            continue
+        data.append(load_unemployment_white_uk(i))
+        #print(data)
+    year = []
+    percentEmployed = []
+    percentEmployedNotUK = [] 
+    for i in data:
+        year.append(i[0][0])
+        percentEmployed.append(i[0][1])
+        percentEmployedNotUK.append(i[0][2])
+    
+    plt.xticks(rotation=90)
+    plt.bar(year, percentEmployed)
+    plt.show()
 
+
+plotting_white_uk()
 
 
