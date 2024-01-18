@@ -80,6 +80,8 @@ def load_unemployment_ethnic_uk(year):
 def plotting_ethnic_uk():
     data = []
     for i in range(2005, 2023):
+        if i == 2010:
+            continue
         data.append(load_unemployment_ethnic_uk(i))
         #print(data)
     year = []
@@ -113,7 +115,43 @@ def plotting_white_uk():
     plt.bar(year, percentEmployed)
     plt.show()
 
+def plotting_we_uk():
+    dataW = []
+    dataE = []
+    for i in range(2005, 2023):
+        if i == 2010:
+            continue
+        dataW.append(load_unemployment_white_uk(i))
+    for i in range(2005, 2023):
+        if i == 2010:
+            continue
+        dataE.append(load_unemployment_ethnic_uk(i))
+        #print(data)
+    year = []
+    percentEmployedW = []
+    percentEmployedNotUKW = [] 
+    for i in dataW:
+        #year.append(i[0][0])
+        percentEmployedW.append(i[0][1])
+        percentEmployedNotUKW.append(i[0][2])
 
-plotting_white_uk()
+    percentEmployedE = []
+    percentEmployedNotUKE = [] 
+    for i in dataE:
+        year.append(i[0][0])
+        percentEmployedE.append(i[0][1])
+        percentEmployedNotUKE.append(i[0][2])    
+
+
+    plt.xticks(rotation=90)
+    plt.plot(year, percentEmployedE, label="Ethnic Minority")
+    plt.plot(year, percentEmployedNotUKE, label="Ethnic Minority [Not UK Born]")
+    plt.plot(year, percentEmployedW, color="r", label="White")
+    plt.plot(year, percentEmployedNotUKW, label="White [Not UK Born]")
+
+    plt.legend()
+    plt.show()
+
+plotting_we_uk()
 
 
