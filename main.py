@@ -61,5 +61,21 @@ def load_unemployment_white_uk(year):
             pass
     return data
 
-print(load_unemployment_white_uk(2015))
+def load_unemployment_ethnic_uk(year):
+    employment_rate = './ea-rate-and-er-by-eg-and-nation.xls'
+    df_2 = pd.read_excel(employment_rate, sheet_name=str(year), index_col=None, skiprows=2)
+    data = []
+    for i, j in df_2.iterrows():
+        try:
+            if j[1] == "United Kingdom":
+                percentEmployed = j[28]
+                percentEmployedNotUK = j[32]
+                borough = j[1]
+                data.append([borough,percentEmployed,percentEmployedNotUK])
+                # append the borough and percentage employed
+        except: 
+            pass
+    return data
+
+print(load_unemployment_ethnic_uk(2015))
 
