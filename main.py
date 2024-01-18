@@ -144,6 +144,9 @@ def plotting_we_uk():
 
 
     plt.xticks(rotation=90)
+    plt.title("Unemployment by year")
+    plt.ylabel("Percentage")
+    plt.xlabel("Year")
     plt.plot(year, percentEmployedE, label="Ethnic Minority")
     plt.plot(year, percentEmployedNotUKE, label="Ethnic Minority [Not UK Born]")
     plt.plot(year, percentEmployedW, color="r", label="White")
@@ -191,9 +194,74 @@ def plotting_eborn_uk():
     plt.xticks(rotation=90)
     plt.plot(year, percentEmployedE, label="Ethnic Minority")
     plt.plot(year, percentEmployedNotUKE, label="Ethnic Minority [Not UK Born]")
+    plt.title("Ethnic Minority Unemployment by year")
+    plt.ylabel("Percentage")
+    plt.xlabel("Year")
     plt.legend()
     plt.show()
 
-plotting_eborn_uk()
+def average_unemployment_uk():
+    dataW = []
+    dataE = []
+    for i in range(2005, 2023):
+        if i == 2010:
+            continue
+        dataW.append(load_unemployment_white_uk(i))
+    for i in range(2005, 2023):
+        if i == 2010:
+            continue
+        dataE.append(load_unemployment_ethnic_uk(i))
+        #print(data)
+    year = []
+    percentEmployedW = []
+    percentEmployedNotUKW = [] 
+    for i in dataW:
+        #year.append(i[0][0])
+        percentEmployedW.append(i[0][1])
+        percentEmployedNotUKW.append(i[0][2])
+
+    percentEmployedE = []
+    percentEmployedNotUKE = [] 
+    for i in dataE:
+        year.append(i[0][0])
+        percentEmployedE.append(i[0][1])
+        percentEmployedNotUKE.append(i[0][2])    
+
+    averageE = np.average(percentEmployedE)
+    averageW = np.average(percentEmployedW)
+    return averageE, averageW
+
+def corr_E():
+    dataE = []
+    for i in range(2005, 2023):
+        if i == 2010:
+            continue
+        dataE.append(load_unemployment_ethnic_uk(i))
+        #print(data)
+    year = []
+    percentEmployedE = []
+    percentEmployedNotUKE = [] 
+    for i in dataE:
+        year.append(i[0][0])
+        percentEmployedE.append(i[0][1])
+        percentEmployedNotUKE.append(i[0][2])    
+    return np.corrcoef(percentEmployedE,percentEmployedNotUKE)
+
+def corr_W():
+    dataW = []
+    for i in range(2005, 2023):
+        if i == 2010:
+            continue
+        dataW.append(load_unemployment_white_uk(i))
+    year = []
+    percentEmployedW = []
+    percentEmployedNotUKW = [] 
+    for i in dataW:
+        year.append(i[0][0])
+        percentEmployedW.append(i[0][1])
+        percentEmployedNotUKW.append(i[0][2])    
+    return np.corrcoef(percentEmployedW,percentEmployedNotUKW)
+
+
 
 
