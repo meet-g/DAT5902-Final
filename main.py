@@ -371,7 +371,7 @@ def test_plot_employment_merton():
     plt.legend()
     plt.show()
 
-def test_newham_merton_averages():
+def test_newham_merton_averages_plot():
     validYears = [2005,2007,2008,2009,2011,2012,2013,]
     year = []
     percentEmployedEM = []
@@ -390,7 +390,6 @@ def test_newham_merton_averages():
                     percentEmployedEM.append(j[3])
 
     # Plot white / ethnic unemployment in newham
-    year = []
     percentEmployedEN = []
     percentEmployedWN = []
     data = []
@@ -402,8 +401,16 @@ def test_newham_merton_averages():
                 #year.append(j[1])
                 percentEmployedWN.append(j[2])
                 percentEmployedEN.append(j[3])
-    print(np.average(percentEmployedEM))
-    print(np.average(percentEmployedEN))
+    plt.xticks(rotation=90)
+    plt.plot(year, percentEmployedEN, label="Ethnic Minority - Newham")
+    plt.plot(year, percentEmployedWN, label="White - Newham")
+    plt.plot(year, percentEmployedEM, label="Ethnic Minority - Merton")
+    plt.plot(year, percentEmployedWM, label="White - Merton")
+    plt.title("Unemployment by year - Newham / Merton")
+    plt.ylabel("Percentage")
+    plt.xlabel("Year")
+    plt.legend()
+    plt.show()
     diffE = np.average(percentEmployedEN) - np.average(percentEmployedEM)
     diffW = np.average(percentEmployedWN) - np.average(percentEmployedWM)
     return diffE, diffW
