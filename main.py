@@ -3,8 +3,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 def load_employment(year):
+    # Function to load employment dataset by year
     employment_rate = './employment-rate-by-industry.xlsx'
     df_2 = pd.read_excel(employment_rate, sheet_name=str(year), index_col=None, skiprows=2)
+    # Read file, skipping rows that are not required
     boroughs = []
     employed = []
     data = []
@@ -26,8 +28,10 @@ def load_employment(year):
     return data
 
 def load_unemployment_white_borough(year):
+    # Function to load white employment data by year 
     employment_rate = './ea-rate-and-er-by-eg-and-nation.xls'
     df_2 = pd.read_excel(employment_rate, sheet_name=str(year), index_col=None, skiprows=2)
+    # Read file, skipping rows that are not required
     data = []
     for i, j in df_2.iterrows():
         try:
@@ -47,8 +51,10 @@ def load_unemployment_white_borough(year):
             pass
     return data
 def load_unemployment_ethnic_borough(year):
+    # Function to load ethnic employment data by borough
     employment_rate = './ea-rate-and-er-by-eg-and-nation.xls'
     df_2 = pd.read_excel(employment_rate, sheet_name=str(year), index_col=None, skiprows=2)
+    # Read file, skipping rows that are not required
     data = []
     for i, j in df_2.iterrows():
         try:
@@ -70,8 +76,10 @@ def load_unemployment_ethnic_borough(year):
     return data
 
 def load_unemployment_we_borough(year):
+    # Function to read white and ethnic employment data by borough
     employment_rate = './ea-rate-and-er-by-eg-and-nation.xls'
     df_2 = pd.read_excel(employment_rate, sheet_name=str(year), index_col=None, skiprows=2)
+    # Read file, skipping rows that are not required
     data = []
     for i, j in df_2.iterrows():
         try:
@@ -93,8 +101,10 @@ def load_unemployment_we_borough(year):
     return data
 
 def load_unemployment_white_uk(year):
+    # Function to load white unemployment by year - UK
     employment_rate = './ea-rate-and-er-by-eg-and-nation.xls'
     df_2 = pd.read_excel(employment_rate, sheet_name=str(year), index_col=None, skiprows=2)
+    # Read file, skipping rows that are not required
     data = []
     for i, j in df_2.iterrows():
         try:
@@ -109,8 +119,10 @@ def load_unemployment_white_uk(year):
     return data
 
 def load_unemployment_ethnic_uk(year):
+    # Function to load ethnic unemployment by year - UK
     employment_rate = './ea-rate-and-er-by-eg-and-nation.xls'
     df_2 = pd.read_excel(employment_rate, sheet_name=str(year), index_col=None, skiprows=2)
+    # Read file, skipping rows that are not required
     data = []
     for i, j in df_2.iterrows():
         try:
@@ -125,6 +137,7 @@ def load_unemployment_ethnic_uk(year):
     return data
 
 def plotting_ethnic_uk():
+    # Plot ethnic unemployment - UK
     data = []
     for i in range(2005, 2023):
         if i == 2010:
@@ -144,6 +157,7 @@ def plotting_ethnic_uk():
     plt.show()
 
 def plotting_white_uk():
+    # Plot white unemployment - UK
     data = []
     for i in range(2005, 2023):
         if i == 2010:
@@ -163,6 +177,7 @@ def plotting_white_uk():
     plt.show()
 
 def plotting_we_uk():
+    # Plot both white and ethnic unemployment - UK
     dataW = []
     dataE = []
     for i in range(2005, 2023):
@@ -202,6 +217,7 @@ def plotting_we_uk():
     plt.show()
 
 def plotting_wborn_uk():
+    # Plot white unemployment born in the UK /  not born in the UK
     dataW = []
     for i in range(2005, 2023):
         if i == 2010:
@@ -226,6 +242,7 @@ def plotting_wborn_uk():
     plt.show()
 
 def plotting_eborn_uk():
+    # Plot ethnic unemployment born in the UK /  not born in the UK
     dataE = []
     for i in range(2005, 2023):
         if i == 2010:
@@ -251,6 +268,7 @@ def plotting_eborn_uk():
     plt.show()
 
 def average_unemployment_uk():
+    # Compare average unemployment of ethnic individual and average unemployment of white individuals in the UK
     dataW = []
     dataE = []
     for i in range(2005, 2023):
@@ -282,6 +300,7 @@ def average_unemployment_uk():
     return averageE, averageW
 
 def corr_E():
+    # Compare correlation of white unemployment born in uk / not born in uk
     dataE = []
     for i in range(2005, 2023):
         if i == 2010:
@@ -298,6 +317,7 @@ def corr_E():
     return np.corrcoef(percentEmployedE,percentEmployedNotUKE)
 
 def corr_W():
+    # Compare correlation of ethnic unemployment born in uk / not born in uk
     dataW = []
     for i in range(2005, 2023):
         if i == 2010:
@@ -313,6 +333,7 @@ def corr_W():
     return np.corrcoef(percentEmployedW,percentEmployedNotUKW)
 
 def plot_employment_newham():
+    # Plot white / ethnic unemployment in newham
     year = []
     percentEmployedE = []
     percentEmployedW = []
@@ -336,6 +357,7 @@ def plot_employment_newham():
 
 
 def corr_coef_newham():
+    # Obtain correlation of white unemployment vs ethnic employment - Newham
     unemploymentW = []
     unemploymentE = []
     data = []
@@ -348,7 +370,31 @@ def corr_coef_newham():
                 unemploymentE.append(j[3])
     return np.corrcoef(unemploymentW,unemploymentE)
     
-
+def plot_employment_merton():
+    # Obtain correlation of white unemployment vs ethnic employment - Merton
+    year = []
+    percentEmployedE = []
+    percentEmployedW = []
+    data = []
+    for i in range(2005,2023):
+        data.append(load_unemployment_we_borough(i))
+    for i in data:
+        for j in i:
+            if j[0] == "Merton":
+                if j[2] > 50 or j[3] > 50:
+                    continue
+                else:
+                    year.append(j[1])
+                    percentEmployedW.append(j[2])
+                    percentEmployedE.append(j[3])
+    plt.xticks(rotation=90)
+    plt.plot(year, percentEmployedE, label="Ethnic Minority")
+    plt.plot(year, percentEmployedW, label="White")
+    plt.title("Unemployment by year - Merton")
+    plt.ylabel("Percentage")
+    plt.xlabel("Year")
+    plt.legend()
+    plt.show()
 
 plot_employment_newham()
 
