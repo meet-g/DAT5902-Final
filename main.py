@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-def test_load_unemployment_white_borough(year):
+def load_unemployment_white_borough(year):
     # Function to load white employment data by year 
     employment_rate = './ea-rate-and-er-by-eg-and-nation.xls'
     df_2 = pd.read_excel(employment_rate, sheet_name=str(year), index_col=None, skiprows=2)
@@ -25,7 +25,7 @@ def test_load_unemployment_white_borough(year):
         except: 
             pass
     return data
-def test_load_unemployment_ethnic_borough(year):
+def load_unemployment_ethnic_borough(year):
     # Function to load ethnic employment data by borough
     employment_rate = './ea-rate-and-er-by-eg-and-nation.xls'
     df_2 = pd.read_excel(employment_rate, sheet_name=str(year), index_col=None, skiprows=2)
@@ -75,7 +75,7 @@ def test_load_unemployment_we_borough(year):
             pass
     return data
 
-def test_load_unemployment_white_uk(year):
+def load_unemployment_white_uk(year):
     # Function to load white unemployment by year - UK
     employment_rate = './ea-rate-and-er-by-eg-and-nation.xls'
     df_2 = pd.read_excel(employment_rate, sheet_name=str(year), index_col=None, skiprows=2)
@@ -93,7 +93,7 @@ def test_load_unemployment_white_uk(year):
             pass
     return data
 
-def test_load_unemployment_ethnic_uk(year):
+def load_unemployment_ethnic_uk(year):
     # Function to load ethnic unemployment by year - UK
     employment_rate = './ea-rate-and-er-by-eg-and-nation.xls'
     df_2 = pd.read_excel(employment_rate, sheet_name=str(year), index_col=None, skiprows=2)
@@ -117,7 +117,7 @@ def test_plotting_ethnic_uk():
     for i in range(2005, 2023):
         if i == 2010:
             continue
-        data.append(test_load_unemployment_ethnic_uk(i))
+        data.append(load_unemployment_ethnic_uk(i))
         #print(data)
     year = []
     percentEmployed = []
@@ -137,7 +137,7 @@ def test_plotting_white_uk():
     for i in range(2005, 2023):
         if i == 2010:
             continue
-        data.append(test_load_unemployment_white_uk(i))
+        data.append(load_unemployment_white_uk(i))
         #print(data)
     year = []
     percentEmployed = []
@@ -158,11 +158,11 @@ def test_plotting_we_uk():
     for i in range(2005, 2023):
         if i == 2010:
             continue
-        dataW.append(test_load_unemployment_white_uk(i))
+        dataW.append(load_unemployment_white_uk(i))
     for i in range(2005, 2023):
         if i == 2010:
             continue
-        dataE.append(test_load_unemployment_ethnic_uk(i))
+        dataE.append(load_unemployment_ethnic_uk(i))
         #print(data)
     year = []
     percentEmployedW = []
@@ -197,7 +197,7 @@ def test_plotting_wborn_uk():
     for i in range(2005, 2023):
         if i == 2010:
             continue
-        dataW.append(test_load_unemployment_white_uk(i))
+        dataW.append(load_unemployment_white_uk(i))
     year = []
     percentEmployedW = []
     percentEmployedNotUKW = [] 
@@ -222,7 +222,7 @@ def test_plotting_eborn_uk():
     for i in range(2005, 2023):
         if i == 2010:
             continue
-        dataE.append(test_load_unemployment_ethnic_uk(i))
+        dataE.append(load_unemployment_ethnic_uk(i))
         #print(data)
     year = []
     percentEmployedE = []
@@ -249,11 +249,11 @@ def test_average_unemployment_uk():
     for i in range(2005, 2023):
         if i == 2010:
             continue
-        dataW.append(test_load_unemployment_white_uk(i))
+        dataW.append(load_unemployment_white_uk(i))
     for i in range(2005, 2023):
         if i == 2010:
             continue
-        dataE.append(test_load_unemployment_ethnic_uk(i))
+        dataE.append(load_unemployment_ethnic_uk(i))
         #print(data)
     year = []
     percentEmployedW = []
@@ -280,7 +280,7 @@ def test_corr_E():
     for i in range(2005, 2023):
         if i == 2010:
             continue
-        dataE.append(test_load_unemployment_ethnic_uk(i))
+        dataE.append(load_unemployment_ethnic_uk(i))
         #print(data)
     year = []
     percentEmployedE = []
@@ -297,7 +297,7 @@ def test_corr_W():
     for i in range(2005, 2023):
         if i == 2010:
             continue
-        dataW.append(test_load_unemployment_white_uk(i))
+        dataW.append(load_unemployment_white_uk(i))
     year = []
     percentEmployedW = []
     percentEmployedNotUKW = [] 
@@ -314,7 +314,7 @@ def test_plot_employment_newham():
     percentEmployedW = []
     data = []
     for i in range(2005,2023):
-        data.append(test_load_unemployment_we_borough(i))
+        data.append(load_unemployment_we_borough(i))
     for i in data:
         for j in i:
             if j[0] == "Newham":
@@ -337,7 +337,7 @@ def test_corr_coef_newham():
     unemploymentE = []
     data = []
     for i in range(2005,2023):
-        data.append(test_load_unemployment_we_borough(i))
+        data.append(load_unemployment_we_borough(i))
     for i in data:
         for j in i:
             if j[0] == "Newham":
@@ -352,7 +352,7 @@ def test_plot_employment_merton():
     percentEmployedW = []
     data = []
     for i in range(2005,2023):
-        data.append(test_load_unemployment_we_borough(i))
+        data.append(load_unemployment_we_borough(i))
     for i in data:
         for j in i:
             if j[0] == "Merton":
@@ -378,7 +378,7 @@ def test_newham_merton_averages():
     percentEmployedWM = []
     data = []
     for i in range(2005,2023):
-        data.append(test_load_unemployment_we_borough(i))
+        data.append(load_unemployment_we_borough(i))
     for i in data:
         for j in i:
             if j[0] == "Merton" and int(j[1]) in validYears:
@@ -395,7 +395,7 @@ def test_newham_merton_averages():
     percentEmployedWN = []
     data = []
     for i in range(2005,2023):
-        data.append(test_load_unemployment_we_borough(i))
+        data.append(load_unemployment_we_borough(i))
     for i in data:
         for j in i:
             if j[0] == "Newham" and int(j[1]) in validYears:
