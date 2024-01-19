@@ -7,21 +7,23 @@ def load_employment(year):
     df_2 = pd.read_excel(employment_rate, sheet_name=str(year), index_col=None, skiprows=2)
     boroughs = []
     employed = []
+    data = []
     for i, j in df_2.iterrows():
         try:
             if j[1] == "City of London":
                 continue
             percentEmployed = j[40]
             borough = j[1]
-            boroughs.append(borough)
-            employed.append(percentEmployed)
-            # append the borough and percentage employed for the borough to two lists
+            data.append([borough, year, percentEmployed])
+            #boroughs.append(borough)
+            #employed.append(percentEmployed)
+            # append the borough and percentage employed to the data list
             if borough == "Westminster":
                 break
             # Stop at westminister since this is the last borough
         except: 
             pass
-    return boroughs, employed
+    return data
 
 def load_unemployment_white_borough(year):
     employment_rate = './ea-rate-and-er-by-eg-and-nation.xls'
@@ -31,15 +33,60 @@ def load_unemployment_white_borough(year):
         try:
             if j[1] == "City of London":
                 continue
+            if j[1] == "Westminster":
+                break
             if j[20] == "!":
                 pass
             else:
                 percentEmployed = j[20]
                 borough = j[1]
-                data.append([borough,percentEmployed])
+                data.append([borough,year,percentEmployed])
                 # append the borough and percentage employed
-            if borough == "Westminster":
+            # Stop at westminister since this is the last borough
+        except: 
+            pass
+    return data
+def load_unemployment_ethnic_borough(year):
+    employment_rate = './ea-rate-and-er-by-eg-and-nation.xls'
+    df_2 = pd.read_excel(employment_rate, sheet_name=str(year), index_col=None, skiprows=2)
+    data = []
+    for i, j in df_2.iterrows():
+        try:
+            if j[1] == "City of London":
+                continue
+            if j[1] == "Westminster":
                 break
+            if j[28] == "!":
+                pass
+            else:
+                percentEmployed = j[28]
+                borough = j[1]
+                data.append([borough,year, percentEmployed])
+                # append the borough and percentage employed
+
+            # Stop at westminister since this is the last borough
+        except: 
+            pass
+    return data
+
+def load_unemployment_we_borough(year):
+    employment_rate = './ea-rate-and-er-by-eg-and-nation.xls'
+    df_2 = pd.read_excel(employment_rate, sheet_name=str(year), index_col=None, skiprows=2)
+    data = []
+    for i, j in df_2.iterrows():
+        try:
+            if j[1] == "City of London":
+                continue
+            if j[1] == "Westminster":
+                break
+            if j[20] == "!" or j[28] == "!":
+                pass
+            else:
+                percentEmployedW = j[20]
+                percentEmployedE = j[28]
+                borough = j[1]
+                data.append([borough,str(year),percentEmployedW,percentEmployedE])
+                # append the borough and percentage employed
             # Stop at westminister since this is the last borough
         except: 
             pass
@@ -172,6 +219,9 @@ def plotting_wborn_uk():
     plt.xticks(rotation=90)
     plt.plot(year, percentEmployedW, color="r", label="White")
     plt.plot(year, percentEmployedNotUKW, label="White [Not UK Born]")
+    plt.title("White Unemployment by year")
+    plt.ylabel("Percentage")
+    plt.xlabel("Year")
     plt.legend()
     plt.show()
 
@@ -262,6 +312,43 @@ def corr_W():
         percentEmployedNotUKW.append(i[0][2])    
     return np.corrcoef(percentEmployedW,percentEmployedNotUKW)
 
+def plot_employment_newham():
+    year = []
+    percentEmployedE = []
+    percentEmployedW = []
+    data = []
+    for i in range(2005,2023):
+        data.append(load_unemployment_we_borough(i))
+    for i in data:
+        for j in i:
+            if j[0] == "Newham":
+                year.append(j[1])
+                percentEmployedW.append(j[2])
+                percentEmployedE.append(j[3])
+    plt.xticks(rotation=90)
+    plt.plot(year, percentEmployedE, label="Ethnic Minority")
+    plt.plot(year, percentEmployedW, label="White")
+    plt.title("Unemployment by year - Newham")
+    plt.ylabel("Percentage")
+    plt.xlabel("Year")
+    plt.legend()
+    plt.show()
 
 
+def corr_coef_newham():
+    unemploymentW = []
+    unemploymentE = []
+    data = []
+    for i in range(2005,2023):
+        data.append(load_unemployment_we_borough(i))
+    for i in data:
+        for j in i:
+            if j[0] == "Newham":
+                unemploymentW.append(j[2])
+                unemploymentE.append(j[3])
+    return np.corrcoef(unemploymentW,unemploymentE)
+    
+
+
+plot_employment_newham()
 
