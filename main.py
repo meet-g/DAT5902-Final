@@ -50,7 +50,7 @@ def load_unemployment_ethnic_borough(year):
             pass
     return data
 
-def test_load_unemployment_we_borough(year):
+def load_unemployment_we_borough(year):
     # Function to read white and ethnic employment data by borough
     employment_rate = './ea-rate-and-er-by-eg-and-nation.xls'
     df_2 = pd.read_excel(employment_rate, sheet_name=str(year), index_col=None, skiprows=2)
